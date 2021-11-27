@@ -10,8 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todos {
+model Application {
   id Int @id @default(autoincrement())
-  text String
-  completed Boolean
+  name String @unique
+  description String
+  url String? @unique
+  type String
+  bugs Bug[]
 }
+
+model Bug {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  status String @default("Pending")
+  priority Int
+  reportedDate DateTime @default(now())
+  reportedBy String
+  application Application @relation(fields: [appID], references: [id])
+  appID Int
+  solution Solution?
+}
+
+model Solution {
+  id Int @id @default(autoincrement())
+  description String
+  solvedDate DateTime @default(now())
+  solvedBy String
+  bug Bug @relation(fields: [bugID], references: [id])
+  bugID Int
+}
+
+

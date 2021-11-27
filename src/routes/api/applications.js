@@ -1,50 +1,50 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { addTodo, getTodo, getTodos, updateTodo } from "../../utils/todos";
+import { addApplication, getApplication, getApplications, updateApplication } from "../../utils/application";
 
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const todos = await getTodos(req.query.completed);
+    const applications = await getApplications();
     
-    res.send(todos);
+    res.send(applications);
 }); 
 
 router.get('/:id', async (req, res, next) => {
-    const todo = await getTodo(req.params.id);
-    if(todo) {
-        res.send(todo);
+    const application = await getApplication(req.params.id);
+    if(application) {
+        res.send(application);
     } else {
         res.status(StatusCodes.NOT_FOUND);
-        next(new Error(`Not Found To do with ID: ${req.params.id}`));
+        next(new Error(`Not Found application with ID: ${req.params.id}`));
     }
 });
 
 router.post('/', async (req, res, next) => {
-    const todo = req.body;
-    const response = await addTodo(todo);
+    const application = req.body;
+    const response = await addApplication(application);
 
     if(response.error){
         res.status(StatusCodes.BAD_REQUEST);
         next(response.error);
     } else{
         res.status(StatusCodes.CREATED);
-        res.send(response.newTodo);
+        res.send(response.newApp);
     }
 });
 
 router.put('/:id', async (req, res, next) => {
-    const todo = req.body;
-    const response = await updateTodo(req.params.id, todo);
+    const application = req.body;
+    const response = await updateApplication(req.params.id, application);
 
     if (response.error) {
         res.status(StatusCodes.BAD_REQUEST);
         next(response.error);
     } else {
         res.status(StatusCodes.OK);
-        res.send(response.updatedTodo);
+        res.send(response.updatedApp);
     }
 });
 
