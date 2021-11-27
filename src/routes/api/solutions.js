@@ -1,50 +1,50 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { addApplication, getApplication, getApplications, updateApplication } from "../../utils/applications";
+import { addSolution, getSolution, getSolutions, updateSolution } from "../../utils/solutions";
 
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const applications = await getApplications();
+    const solutions = await getSolutions();
     
-    res.send(applications);
+    res.send(solutions);
 }); 
 
 router.get('/:id', async (req, res, next) => {
-    const application = await getApplication(req.params.id);
-    if(application) {
-        res.send(application);
+    const solution = await getSolution(req.params.id);
+    if(solution) {
+        res.send(solution);
     } else {
         res.status(StatusCodes.NOT_FOUND);
-        next(new Error(`Not Found application with ID: ${req.params.id}`));
+        next(new Error(`Not Found solution with ID: ${req.params.id}`));
     }
 });
 
 router.post('/', async (req, res, next) => {
-    const application = req.body;
-    const response = await addApplication(application);
+    const solution = req.body;
+    const response = await addSolution(solution);
 
     if(response.error){
         res.status(StatusCodes.BAD_REQUEST);
         next(response.error);
     } else{
         res.status(StatusCodes.CREATED);
-        res.send(response.newApp);
+        res.send(response.newSolution);
     }
 });
 
 router.put('/:id', async (req, res, next) => {
-    const application = req.body;
-    const response = await updateApplication(req.params.id, application);
+    const solution = req.body;
+    const response = await updateSolution(req.params.id, solution);
 
     if (response.error) {
         res.status(StatusCodes.BAD_REQUEST);
         next(response.error);
     } else {
         res.status(StatusCodes.OK);
-        res.send(response.updatedApp);
+        res.send(response.updatedSolution);
     }
 });
 
