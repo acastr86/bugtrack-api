@@ -12,11 +12,11 @@ datasource db {
 
 model Application {
   id Int @id @default(autoincrement())
-  name String @unique
+  name String 
   description String
-  url String? @unique
+  url String? 
   type String
-  bugs Bug[]
+  //bugs Bug[]
 }
 
 model Bug {
@@ -27,9 +27,9 @@ model Bug {
   priority Int
   reportedDate DateTime @default(now())
   reportedBy String
-  application Application @relation(fields: [appID], references: [id])
+  //application Application @relation(fields: [appID], references: [id])
   appID Int
-  solution Solution?
+  //solution Solution?
 }
 
 model Solution {
@@ -37,7 +37,7 @@ model Solution {
   description String
   solvedDate DateTime @default(now())
   solvedBy String
-  bug Bug @relation(fields: [bugID], references: [id])
+  //bug Bug @relation(fields: [bugID], references: [id])
   bugID Int
 }
 

@@ -16,8 +16,7 @@ CREATE TABLE "Bug" (
     "priority" INTEGER NOT NULL,
     "reportedDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "reportedBy" TEXT NOT NULL,
-    "appID" INTEGER NOT NULL,
-    CONSTRAINT "Bug_appID_fkey" FOREIGN KEY ("appID") REFERENCES "Application" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "appID" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -26,15 +25,5 @@ CREATE TABLE "Solution" (
     "description" TEXT NOT NULL,
     "solvedDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "solvedBy" TEXT NOT NULL,
-    "bugID" INTEGER NOT NULL,
-    CONSTRAINT "Solution_bugID_fkey" FOREIGN KEY ("bugID") REFERENCES "Bug" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "bugID" INTEGER NOT NULL
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "Application_name_key" ON "Application"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Application_url_key" ON "Application"("url");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Solution_bugID_key" ON "Solution"("bugID");
